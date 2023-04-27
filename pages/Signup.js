@@ -1,19 +1,27 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image,SafeAreaView ,Button } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image,SafeAreaView ,Button, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useNavigation } from '@react-navigation/native';
+
+
+
 const SignUp = () => {
+  const [username, setUsername] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-  const [mydate, setDate] = useState(new Date());
-    const [displaymode, setMode] = useState('date');
-    const [isDisplayDate, setShow] = useState(false);
-    const changeSelectedDate = (event, selectedDate) => {
-    const currentDate = selectedDate || mydate;
-    setDate(currentDate);
-    setShow(false);
+  const [ConfirmPassword, setConfirmPassword] = useState('');
+  const [location, setLocation] = useState('');
+  const [date, setDate] = useState(new Date());
+  const [displaymode, setMode] = useState('date');
+  const [isDisplayDate, setShow] = useState(false);
+  const changeSelectedDate = (event, selectedDate) => {
+  const currentDate = selectedDate || date;
+  setDate(currentDate);
+  setShow(false);
  };
  const showMode = (currentMode) => {
     setShow(true);
@@ -22,11 +30,15 @@ const SignUp = () => {
  const displayDatepicker = () => {
     showMode('date');
  };
+ const navigation = useNavigation();
 
   const handleSubmit = () => {
     console.log('Name:', name);
     console.log('Email:', email);
     console.log('Password:', password);
+    Alert.alert('Success', 'Signed up successfully!');
+    navigation.navigate('Login');
+
     // TODO: Submit form data to server or perform other actions
     
   };
@@ -36,25 +48,15 @@ const SignUp = () => {
       <View style={styles.container}>
       <View style={styles.inputBorder}>
         
-        <Image style={styles.image} source={require("../assets/Logo.png")} />
+        <Image style={styles.image} source={require("../assets/logo.png")} />
         <View style={styles.inputContainer}>
           <Ionicons name="person-outline" size={24} color="#D3B419" style={styles.icon} />
           <TextInput
             style={styles.input}
             placeholder="First name"
             placeholderTextColor="#fff"
-            value={name}
-            onChangeText={setName}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Ionicons name="person-outline" size={24} color="#D3B419" style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Last Name"
-            placeholderTextColor="#fff"
-            value={name}
-            onChangeText={setName}
+            value={username}
+            onChangeText={setUsername}
           />
         </View>
         <View style={styles.inputContainer}>
@@ -74,18 +76,18 @@ const SignUp = () => {
             style={styles.input}
             placeholder="Phone Number"
             placeholderTextColor="#fff"
-            value={password}
-            onChangeText={setPassword}
+            value={phone}
+            onChangeText={setPhone}
           />
         </View>
         <View style={styles.inputContainer}>
           <Ionicons name="location-outline" size={24} color="#D3B419" style={styles.icon} />
           <TextInput
             style={styles.input}
-            placeholder="City"
+            placeholder="Location"
             placeholderTextColor="#fff"
-            value={password}
-            onChangeText={setPassword}
+            value={location}
+            onChangeText={setLocation}
           />
         </View>
         <View >
@@ -100,7 +102,7 @@ const SignUp = () => {
                {isDisplayDate && (
                   <DateTimePicker
                      testID="dateTimePicker"
-                     value={mydate}
+                     value={date}
                      mode={displaymode}
                      is24Hour={true}
                      display="default"
@@ -115,7 +117,7 @@ const SignUp = () => {
             style={styles.input}
             placeholder="Password"
             placeholderTextColor="#fff"
-            
+            secureTextEntry={true}
             value={password}
             onChangeText={setPassword}
           />
@@ -126,10 +128,9 @@ const SignUp = () => {
             style={styles.input}
             placeholder="Confirm Password"
             placeholderTextColor="#fff"
-            
             secureTextEntry={true}
-            value={password}
-            onChangeText={setPassword}
+            value={ConfirmPassword}
+            onChangeText={setConfirmPassword}
           />
         </View>
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
