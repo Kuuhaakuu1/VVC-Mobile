@@ -3,6 +3,12 @@ import { useNavigation } from '@react-navigation/native';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { authentication } from "../firebase";
+
+
+
+
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -16,10 +22,15 @@ const Login = () => {
       navigation.navigate('SignUp');
     };
     const handleSubmit = () => {
-      Alert.alert('Connected successfully', 'Welcome to the home page');
-      navigation.navigate('Homepage');
-
-      //your Code here HAMZA 
+      
+      signInWithEmailAndPassword(authentication,email, password)
+      .then(userCredentials => {
+        const user = userCredentials.user;
+        console.log('Logged in with: ', user.uid);
+        navigation.navigate('Homepage');
+        Alert.alert('Connected successfully', 'Welcome to the home page');
+    })
+    .catch(error => Alert.alert("Connection failed", "Please check your email and password"))
     };
 
     return (

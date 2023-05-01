@@ -5,11 +5,16 @@ import { ScrollView } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
 
+import {firebase} from '../Config'
+
+
+
+
 
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
-  const [name, setName] = useState('');
+  //const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
@@ -32,16 +37,34 @@ const SignUp = () => {
  };
  const navigation = useNavigation();
 
-  const handleSubmit = () => {
-    console.log('Name:', name);
-    console.log('Email:', email);
-    console.log('Password:', password);
-    Alert.alert('Success', 'Signed up successfully!');
-    navigation.navigate('Login');
+ 
+  const handleSubmit = async(email,password,ConfirmPassword,username,phone,location,date)=>{
+   // console log the parameters :
+    if(password == ConfirmPassword){
+    await firebase.auth().createUserWithEmailAndPassword(email,password)
+    .then(()=>{
 
-    // TODO: Submit form data to server or perform other actions
+      firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid)
+      .set({
+        username,
+        password,
+        email,
+        phone,
+        location,
+        date,
+      })
+    })  .catch((err) => {
+          console.error(err); 
+      });
+        
+
     
-  };
+
+  }
+  else{
+    alert('password not match')
+  }
+}
 
   return (
     <ScrollView>
@@ -96,7 +119,7 @@ const SignUp = () => {
          
       <TouchableOpacity style={styles.inputContainer} onPress={displayDatepicker}>
         <Ionicons name="calendar-outline" size={24} color="#D3B419" style={styles.icon} />
-        <Text style={styles.input}>Select Date of Birth</Text>
+        <Text id='DateId' style={styles.input}>Select Date of Birth</Text>
      </TouchableOpacity>
             </View>
                {isDisplayDate && (
@@ -133,7 +156,8 @@ const SignUp = () => {
             onChangeText={setConfirmPassword}
           />
         </View>
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+        
+        <TouchableOpacity style={styles.button}  onPress={()=>handleSubmit(email,password,ConfirmPassword,username,phone,location,date)}>
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
