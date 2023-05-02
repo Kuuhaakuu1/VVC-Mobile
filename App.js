@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import Login from './pages/Login';
 import SignUp from './pages/Signup';
 import Homepage from './pages/Homepage';
+import Profil from './pages/Profil';
+
 
 const Stack = createStackNavigator();
 
@@ -15,6 +17,9 @@ const App = () => {
                       options={{headerStyle: {backgroundColor: '#212832',},headerTintColor: '#fff', }}/>
         <Stack.Screen name="SignUp"
                       component={SignUp}
+                      options={{headerStyle: {backgroundColor: '#212832',},headerTintColor: '#fff', }}/>
+        <Stack.Screen name="Profil"
+                      component={Profil}
                       options={{headerStyle: {backgroundColor: '#212832',},headerTintColor: '#fff', }}/>
         <Stack.Screen name="Homepage"
                       component={Homepage}
