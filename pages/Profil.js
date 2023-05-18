@@ -183,15 +183,16 @@ const handleSubmit = async(email,password,username,phone,location,date)=>{
         <TouchableOpacity style={styles.button}  onPress={()=>handleSubmit(email,password,username,phone,location,date)}>
           <Text style={styles.buttonText}>{buttonText}</Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={MapN} style={styles.button}>
+          <Text style={styles.buttonText}>Go to Maps</Text>
+        </TouchableOpacity>
         <TouchableOpacity  style={styles.button} onPress={generateQRCode} >
           <Text style={styles.buttonText}>Generate QR Code</Text>
         </TouchableOpacity>
       {qrCodeUrl ? (
         <Image style={styles.qrCode} source={{ uri: qrCodeUrl }} />
       ) : null}
-        <TouchableOpacity onPress={MapN} style={styles.button}>
-          <Text style={styles.buttonText}>Go to Maps</Text>
-        </TouchableOpacity>
+     
       </View>
     </View>
     </ScrollView>
