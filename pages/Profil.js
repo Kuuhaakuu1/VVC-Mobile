@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image,SafeAreaView ,Button, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
 
-import {firebase} from '../Config'
+import {firebase,authentication,db} from '../Config'
 
 
 const Profil = () => {
@@ -22,6 +22,25 @@ const Profil = () => {
 
   const [isEditable, setIsEditable] = useState(false);
   const [buttonText, setButtonText] = useState('Edit Profil');
+  const [userData, setUserData] = useState([]);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userId = authentication.currentUser.uid;
+      console.log("User ID:", userId);
+      const userRef = db.collection('Utilisateur').doc(userId);
+      const uspoi = await userRef.get();
+
+        if (uspoi.exists) {
+           setUserData(uspoi.data());
+        }else{
+          console.log("No such document!");
+        }
+
+    };
+
+    fetchUserData();
+  }, []);
 
   const changeSelectedDate = (event, selectedDate) => {
   const currentDate = selectedDate || date;
@@ -76,7 +95,7 @@ const handleSubmit = async(email,password,ConfirmPassword,username,phone,locatio
             style={styles.input}
             placeholder="First name"
             placeholderTextColor="#fff"
-            value={username}
+            value={userData?.username}
             onChangeText={setUsername}
             editable={isEditable}
           />
