@@ -13,7 +13,6 @@ const Profil = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-  const [ConfirmPassword, setConfirmPassword] = useState('');
   const [location, setLocation] = useState('');
   const [date, setDate] = useState(new Date());
   const [displaymode, setMode] = useState('date');
@@ -67,21 +66,22 @@ const Profil = () => {
     const url = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://localhost:3000/info&qzone=1';
     setQRCodeUrl(url);
   };
+
+  const MapN= async()=>{
+
+    navigation.navigate('Maps');
+  }
  
-const handleSubmit = async(email,password,ConfirmPassword,username,phone,location,date)=>{
+const handleSubmit = async(email,password,username,phone,location,date)=>{
 
     setButtonText('Confirm');
     if (isEditable == true) {
         setIsEditable(false);
         navigation.navigate('Login');
         navigation.navigate('Profil');
-        //the code of the firebase should be here.
     } 
 
     setIsEditable(true);
-
-   // console log the parameters :
-   // code of firebase was here.
 
 }
 
@@ -114,7 +114,7 @@ const handleSubmit = async(email,password,ConfirmPassword,username,phone,locatio
             placeholder="Email Address"
             placeholderTextColor="#fff"
             keyboardType="email-address"
-            value={email}
+            value={userData?.email}
             onChangeText={setEmail}
             editable={isEditable}
           />
@@ -126,7 +126,7 @@ const handleSubmit = async(email,password,ConfirmPassword,username,phone,locatio
             style={styles.input}
             placeholder="Phone Number"
             placeholderTextColor="#fff"
-            value={phone}
+            value={userData?.phone}
             onChangeText={setPhone}
             editable={isEditable}
           />
@@ -137,7 +137,7 @@ const handleSubmit = async(email,password,ConfirmPassword,username,phone,locatio
             style={styles.input}
             placeholder="Location"
             placeholderTextColor="#fff"
-            value={location}
+            value={userData?.location}
             onChangeText={setLocation}
             editable={isEditable}
           />
@@ -158,7 +158,7 @@ const handleSubmit = async(email,password,ConfirmPassword,username,phone,locatio
                {isDisplayDate && (
                   <DateTimePicker
                      testID="dateTimePicker"
-                     value={date}
+                     value={userData?.date}
                      mode={displaymode}
                      is24Hour={true}
                      display="default"
@@ -174,26 +174,17 @@ const handleSubmit = async(email,password,ConfirmPassword,username,phone,locatio
             placeholder="Password"
             placeholderTextColor="#fff"
             secureTextEntry={true}
-            value={password}
+            value={userData?.password}
             onChangeText={setPassword}
             editable={isEditable}
           />
         </View>
-        <View style={styles.inputContainer}>
-          <Ionicons name="lock-closed-outline" size={24} color="#D3B419" style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Confirm Password"
-            placeholderTextColor="#fff"
-            secureTextEntry={true}
-            value={ConfirmPassword}
-            onChangeText={setConfirmPassword}
-            editable={isEditable}
-          />
-        </View>
         
-        <TouchableOpacity style={styles.button}  onPress={()=>handleSubmit(email,password,ConfirmPassword,username,phone,location,date)}>
+        <TouchableOpacity style={styles.button}  onPress={()=>handleSubmit(email,password,username,phone,location,date)}>
           <Text style={styles.buttonText}>{buttonText}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={MapN} style={styles.button}>
+          <Text style={styles.buttonText}>Go to Maps</Text>
         </TouchableOpacity>
         <TouchableOpacity  style={styles.button} onPress={generateQRCode} >
           <Text style={styles.buttonText}>Generate QR Code</Text>
@@ -201,6 +192,7 @@ const handleSubmit = async(email,password,ConfirmPassword,username,phone,locatio
       {qrCodeUrl ? (
         <Image style={styles.qrCode} source={{ uri: qrCodeUrl }} />
       ) : null}
+     
       </View>
     </View>
     </ScrollView>

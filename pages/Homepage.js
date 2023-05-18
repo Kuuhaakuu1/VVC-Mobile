@@ -12,11 +12,6 @@ export default function HomeScreen() {
      navigation.navigate('Profil');
    };
 
-   const MapN= async()=>{
-
-     navigation.navigate('Maps');
-   }
-
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Hello</Text>
@@ -25,9 +20,7 @@ export default function HomeScreen() {
       <TouchableOpacity onPress={Test} style={{ marginTop: 20, marginBottom: 20 }}>
             <Text  style={{ color: 'black', fontWeight: 'bold' }}>GO TO EDIT PROFIL </Text>
             </TouchableOpacity>
-       <TouchableOpacity onPress={MapN} style={{ marginTop: 20, marginBottom: 20 }}>
-            <Text  style={{ color: 'black', fontWeight: 'bold' }}>GO TO Maps </Text>
-       </TouchableOpacity>
+
     </View>
   );
 }
