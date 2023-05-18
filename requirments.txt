@@ -1,6 +1,7 @@
 npm install @react-navigation/native @react-navigation/native-stack
 npm install @react-navigation/native 
 npm install react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view
- 
-date follow these steps :
-https://www.tutorialspoint.com/how-to-display-date-and-time-picker-in-reactnative#:~:text=Example-,import%20React%2C%20%7BuseState%7D%20from%20'react'%3B%20import,%3D%20useState('time')%3B
+npm install @react-native-community/datetimepicker --save
+
+
+

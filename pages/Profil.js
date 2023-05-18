@@ -42,6 +42,12 @@ const Profil = () => {
     // set the selected image as the profile picture source
     setProfilePicture(selectedImage);
   };
+  const [qrCodeUrl, setQRCodeUrl] = useState('');
+
+  const generateQRCode = () => {
+    const url = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://localhost:3000/info&qzone=1';
+    setQRCodeUrl(url);
+  };
  
 const handleSubmit = async(email,password,ConfirmPassword,username,phone,location,date)=>{
 
@@ -63,6 +69,7 @@ const handleSubmit = async(email,password,ConfirmPassword,username,phone,locatio
   return (
     <ScrollView>
     <View style={styles.container}>
+      
       <View style={styles.inputBorder}>
         <View style={{ alignItems: 'center' }}>
         <Image source={require('../assets/defaultIcon.png')} style={{ backgroundColor:'#cccccc', width: 150, height: 150, borderRadius: 100 }} />
@@ -169,6 +176,12 @@ const handleSubmit = async(email,password,ConfirmPassword,username,phone,locatio
         <TouchableOpacity style={styles.button}  onPress={()=>handleSubmit(email,password,ConfirmPassword,username,phone,location,date)}>
           <Text style={styles.buttonText}>{buttonText}</Text>
         </TouchableOpacity>
+        <TouchableOpacity  style={styles.button} onPress={generateQRCode} >
+          <Text style={styles.buttonText}>Generate QR Code</Text>
+        </TouchableOpacity>
+      {qrCodeUrl ? (
+        <Image style={styles.qrCode} source={{ uri: qrCodeUrl }} />
+      ) : null}
       </View>
     </View>
     </ScrollView>
@@ -236,6 +249,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     textAlign: 'center',
+  },
+  qrCode: {
+    width: 150,
+    height: 150,
+    marginVertical: 20,
+    alignSelf: 'center',
   },
 });
 
