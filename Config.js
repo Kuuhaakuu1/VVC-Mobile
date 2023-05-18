@@ -22,5 +22,6 @@ if(!firebase.apps.length){
         console.log('Firebase Connected')
 
 }
-
-export {firebase};
+const authentication = firebase.auth();
+const db = firebase.firestore();
+export {firebase,authentication,db };
