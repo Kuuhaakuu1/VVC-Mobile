@@ -93,7 +93,7 @@ const handleSubmit = async(email,password,username,phone,location,date)=>{
     setButtonText('Confirm');
     if (isEditable == true) {
         setIsEditable(false);
-        navigation.navigate('Login');
+        navigation.navigate('Homepage');
         navigation.navigate('Profil');
     } 
 
