@@ -5,13 +5,15 @@ import SignUp from './pages/Signup';
 import Homepage from './pages/Homepage';
 import Profil from './pages/Profil';
 import Maps from './pages/Maps'
+import Info from './pages/Info'
 
 
 const Stack = createStackNavigator();
 
 const App = () => {
+  
   return (
-    <NavigationContainer>
+    <NavigationContainer style={{ backgroundColor: '#212832'}}>
       <Stack.Navigator initialRouteName="Login">
         
       <Stack.Screen name="Login"
@@ -28,6 +30,9 @@ const App = () => {
                       options={{headerStyle: {backgroundColor: '#212832',},headerTintColor: '#fff', }}/>
         <Stack.Screen name="Maps"
                       component={Maps}
+                      options={{headerStyle: {backgroundColor: '#212832',},headerTintColor: '#fff', }}/>
+        <Stack.Screen name="Info"
+                      component={Info}
                       options={{headerStyle: {backgroundColor: '#212832',},headerTintColor: '#fff', }}/>
       </Stack.Navigator>
 
