@@ -5,7 +5,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
 
-import {firebase,authentication,db} from '../Config'
+import {firebase,authentication,db,storage} from '../Config'
 
 
 const Profil = () => {
@@ -37,10 +37,24 @@ const Profil = () => {
         }
 
     };
-
+    const fetchProfilePicture = async () => {
+      
+      try {
+      
+      const userId = authentication.currentUser.uid;
+      const url = await storage.ref().child(`${userId}.png`).getDownloadURL();
+      console.log('Image URL:', url);
+      setProfilePicture(url);
+        
+      } catch (error) {
+        console.log('Error getting image URL:', error);
+      }
+      
+    };
+    fetchProfilePicture();
     fetchUserData();
   }, []);
-
+ 
   const changeSelectedDate = (event, selectedDate) => {
   const currentDate = selectedDate || date;
   setDate(currentDate);
@@ -91,7 +105,10 @@ const handleSubmit = async(email,password,username,phone,location,date)=>{
       
       <View style={styles.inputBorder}>
         <View style={{ alignItems: 'center' }}>
-        <Image source={require('../assets/defaultIcon.png')} style={{ backgroundColor:'#cccccc', width: 150, height: 150, borderRadius: 100 }} />
+        <Image
+          source={profilePicture ? { uri: profilePicture } : require('../assets/defaultIcon.png')}
+          style={{ backgroundColor: '#cccccc', width: 150, height: 150, borderRadius: 100 }}
+        />
             <TouchableOpacity onPress={handleImageSelection} style={{ marginTop: 20, marginBottom: 20 }}>
             <Text  style={{ color: 'white', fontWeight: 'bold' }}>Select Profile Picture</Text>
             </TouchableOpacity>
