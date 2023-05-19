@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import {firebase,authentication,db,storage} from '../Config'
 
 
-const Profil = () => {
+const Info = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -102,7 +102,7 @@ const handleSubmit = async(email,password,username,phone,location,date)=>{
 }
 
   return (
-    <ScrollView  >
+    <ScrollView style={{backgroundColor: '#212832'}} >
     <View style={styles.container}>
       
       <View style={styles.inputBorder}>
@@ -111,9 +111,7 @@ const handleSubmit = async(email,password,username,phone,location,date)=>{
           source={profilePicture ? { uri: profilePicture } : require('../assets/defaultIcon.png')}
           style={{ backgroundColor: '#cccccc', width: 150, height: 150, borderRadius: 100 }}
         />
-            <TouchableOpacity onPress={handleImageSelection} style={{ marginTop: 20, marginBottom: 20 }}>
-            <Text  style={{ color: 'white', fontWeight: 'bold' }}>Select Profile Picture</Text>
-            </TouchableOpacity>
+            
         </View>
         <View style={styles.inputContainer}>
           <Ionicons name="person-outline" size={24} color="#D3B419" style={styles.icon}/>
@@ -186,27 +184,11 @@ const handleSubmit = async(email,password,username,phone,location,date)=>{
          )}
       </SafeAreaView>
         </View>
-        <View style={styles.inputContainer}>
-          <Ionicons name="lock-closed-outline" size={24} color="#D3B419" style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            placeholderTextColor="#fff"
-            value={userData?.password}
-            onChangeText={setPassword}
-            editable={isEditable}
-          />
-        </View>
         
-        <TouchableOpacity style={styles.button}  onPress={()=>handleSubmit(email,password,username,phone,location,date)}>
-          <Text style={styles.buttonText}>{buttonText}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={MapN} style={styles.button}>
+        <TouchableOpacity onPress={MapN} style={styles.button }>
           <Text style={styles.buttonText}>Go to Maps</Text>
         </TouchableOpacity>
-        <TouchableOpacity  style={styles.button} onPress={generateQRCode} >
-          <Text style={styles.buttonText}>Generate QR Code</Text>
-        </TouchableOpacity>
+        
       {qrCodeUrl ? (
         <Image style={styles.qrCode} source={{ uri: qrCodeUrl }} />
       ) : null}
@@ -272,6 +254,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     borderRadius: 11,
     marginLeft: '10%',
+    marginTop: "15%",
     width: '80%',
   },
   buttonText: {
@@ -287,4 +270,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profil;
+export default Info;
